@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Models and data
+*.pkl
+*.sav
+*.joblib
+data/raw/
+data/processed/
+models/trained/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# Streamlit
+.streamlit/secrets.toml
+.streamlit/cache/
+
+# OS
+.DS_Store
+Thumbs.db
