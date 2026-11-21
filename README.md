@@ -1,44 +1,32 @@
 # Fake Review Detection
 
-A Streamlit application for analyzing product reviews as fake or genuine. It supports single-review and CSV batch workflows, keeps an in-session analysis history, and visualizes predictions and confidence scores. The prediction pipeline includes language detection, optional translation, text preprocessing, TF-IDF features, and a scikit-learn classifier.
+A Streamlit application for examining product reviews and classifying them as FAKE or GENUINE. It includes single-review analysis, CSV batch analysis, visual summaries, and an in-session history view.
 
-## Stack
+## Analysis flow
 
-- Python
-- Streamlit for the web interface
-- pandas, NumPy, and Plotly for data handling and charts
-- scikit-learn and joblib for feature extraction and model loading
-- NLTK for text preprocessing
-- langdetect for language detection
-- Hugging Face Transformers and PyTorch for translation
+The modules in src/ combine language detection and text preprocessing with feature extraction and a trained classifier. Translation support is included for non-English input. The application displays the predicted label, confidence information, and language details; batch results can be downloaded as CSV.
 
-Install the pinned dependencies with:
+## Technology
 
-```bash
-python -m venv .venv
-# Windows PowerShell: .venv\Scripts\Activate.ps1
-# macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-```
+Python, Streamlit, pandas, NumPy, Plotly, scikit-learn, joblib, NLTK, langdetect, Hugging Face Transformers, and PyTorch. The pinned versions are in requirements.txt.
+
+Create a virtual environment, activate it, then install dependencies:
+
+    python -m venv .venv
+    pip install -r requirements.txt
+
+On Windows PowerShell, activate with .venv\Scripts\Activate.ps1; on macOS/Linux use source .venv/bin/activate.
 
 ## Run
 
-```bash
-streamlit run app.py
-```
+    streamlit run app.py
 
-The app expects trained artifacts at `models/random_forest_model.pkl` and `models/tfidf_vectorizer.pkl`. These artifacts and the training dataset are not included in the repository; provide the required model files before launching the analyzer. `train_model.py` contains the training entry point, and `download_dataset.py` is available for dataset setup.
+The app expects models/random_forest_model.pkl and models/tfidf_vectorizer.pkl. Those artifacts are not included in the repository listing, so provide trained models before launching the prediction interface. train_model.py is the training entry point and requires the expected training data.
 
-## Project layout
+For CSV batch analysis, include a review-text column named review, text, text_, or reviewText.
 
-- `app.py` — Streamlit interface for single and batch analysis
-- `src/` — prediction, preprocessing, language detection, translation, model, and feature extraction modules
-- `train_model.py` — model training workflow
-- `requirements.txt` — Python dependencies
-- `project_guide.md` — extended implementation notes
+## Repository map
 
-CSV batch uploads must include a review text column (`review`, `text`, `text_`, or `reviewText`).
+app.py is the Streamlit interface; src/ contains preprocessing, language detection, translation, feature extraction, training, and prediction modules; train_model.py contains the training workflow; download_dataset.py is a dataset helper; requirements.txt lists dependencies; project_guide.md contains extended notes.
 
-## Important
-
-Predictions are model estimates, not proof that a review is fraudulent. Validate model behavior on representative data before relying on it.
+Predictions are model outputs, not proof of fraud. Evaluate on representative labeled data before relying on them.
