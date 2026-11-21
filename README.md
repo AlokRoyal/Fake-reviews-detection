@@ -1,32 +1,51 @@
 # Fake Review Detection
 
-A Streamlit application for examining product reviews and classifying them as FAKE or GENUINE. It includes single-review analysis, CSV batch analysis, visual summaries, and an in-session history view.
+![Python](https://img.shields.io/badge/Python-ML-3776AB?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B?logo=streamlit&logoColor=white)
+
+A Streamlit application for analyzing product reviews and classifying them as FAKE or GENUINE. It supports individual reviews and CSV batches, shows confidence and language details, and provides charts and an in-session history view.
 
 ## Analysis flow
 
-The modules in src/ combine language detection and text preprocessing with feature extraction and a trained classifier. Translation support is included for non-English input. The application displays the predicted label, confidence information, and language details; batch results can be downloaded as CSV.
+1. The app accepts review text directly or from a CSV file.
+2. The prediction modules detect language and prepare the text.
+3. Translation support handles non-English input.
+4. Text is transformed into TF-IDF features and passed to the configured classifier.
+5. The app presents a label, confidence information, and visual summaries.
+
+The application loads trained model and vectorizer artifacts from the models/ directory.
+
+## Architecture
+
+Streamlit UI → src prediction pipeline → language detection / translation / preprocessing → TF-IDF → trained classifier → result and charts
 
 ## Technology
 
-Python, Streamlit, pandas, NumPy, Plotly, scikit-learn, joblib, NLTK, langdetect, Hugging Face Transformers, and PyTorch. The pinned versions are in requirements.txt.
+Python, Streamlit, pandas, NumPy, Plotly, scikit-learn, joblib, NLTK, langdetect, Hugging Face Transformers, and PyTorch. Pinned versions are listed in requirements.txt.
 
-Create a virtual environment, activate it, then install dependencies:
+## Start locally
+
+Create and activate a virtual environment, install dependencies, then start Streamlit:
 
     python -m venv .venv
     pip install -r requirements.txt
-
-On Windows PowerShell, activate with .venv\Scripts\Activate.ps1; on macOS/Linux use source .venv/bin/activate.
-
-## Run
-
     streamlit run app.py
 
-The app expects models/random_forest_model.pkl and models/tfidf_vectorizer.pkl. Those artifacts are not included in the repository listing, so provide trained models before launching the prediction interface. train_model.py is the training entry point and requires the expected training data.
+Windows PowerShell activation: .venv\Scripts\Activate.ps1. macOS/Linux activation: source .venv/bin/activate.
 
-For CSV batch analysis, include a review-text column named review, text, text_, or reviewText.
+## Data and model requirements
 
-## Repository map
+The app expects models/random_forest_model.pkl and models/tfidf_vectorizer.pkl. These artifacts are not listed in the repository root, so supply compatible trained artifacts before launching the prediction interface. train_model.py is the training entry point and requires the expected training data. CSV batch uploads must include a review-text column named review, text, text_, or reviewText.
 
-app.py is the Streamlit interface; src/ contains preprocessing, language detection, translation, feature extraction, training, and prediction modules; train_model.py contains the training workflow; download_dataset.py is a dataset helper; requirements.txt lists dependencies; project_guide.md contains extended notes.
+## Project layout
 
-Predictions are model outputs, not proof of fraud. Evaluate on representative labeled data before relying on them.
+- app.py — Streamlit UI and batch workflow
+- src/ — prediction, preprocessing, language detection, translation, feature extraction, and model training
+- train_model.py — training workflow
+- download_dataset.py — dataset helper
+- requirements.txt — dependency pins
+- project_guide.md — extended implementation notes
+
+## Limitations
+
+Model predictions are estimates, not proof of fraudulent behavior. Evaluate the classifier with representative labeled data and review false positives before relying on results. Model artifacts and datasets are not included in the repository listing.
